@@ -1,0 +1,8 @@
+<svg width="140" height="140" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="70" cy="70" r="32" stroke="currentColor" stroke-width="7"/>
+  <ellipse cx="70" cy="70" rx="60" ry="23" transform="rotate(-18 70 70)" stroke="currentColor" stroke-width="6"/>
+  <ellipse cx="70" cy="70" rx="60" ry="23" transform="rotate(53 70 70)" stroke="currentColor" stroke-width="6"/>
+  <circle cx="19" cy="88" r="7" fill="currentColor"/>
+  <circle cx="116" cy="38" r="7" fill="currentColor"/>
+  <path d="M82 51C76 46 69 45 62 47C50 51 44 61 45 73C46 87 56 97 69 99C77 100 84 98 89 93" stroke="currentColor" stroke-width="10" stroke-linecap="round"/>
+</svg>

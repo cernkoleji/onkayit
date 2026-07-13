@@ -1,0 +1,15 @@
+<svg width="520" height="170" viewBox="0 0 520 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(8,5)">
+    <circle cx="76" cy="76" r="38" stroke="#DA261C" stroke-width="8"/>
+    <ellipse cx="76" cy="76" rx="66" ry="26" transform="rotate(-18 76 76)" stroke="#DA261C" stroke-width="7"/>
+    <ellipse cx="76" cy="76" rx="66" ry="26" transform="rotate(53 76 76)" stroke="#DA261C" stroke-width="7"/>
+    <circle cx="19" cy="96" r="8" fill="#DA261C"/>
+    <circle cx="125" cy="43" r="8" fill="#DA261C"/>
+    <path d="M90 53C84 46 75 43 66 46C53 50 46 62 47 76C48 92 59 104 75 106C84 107 92 104 98 98" stroke="#DA261C" stroke-width="12" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(158,18)" fill="#DA261C">
+    <text x="0" y="62" font-family="Arial, Helvetica, sans-serif" font-size="62" font-weight="800" letter-spacing="2">CERN</text>
+    <text x="3" y="113" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="800" letter-spacing="1.5">KOLEJİ</text>
+    <text x="5" y="145" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" letter-spacing="6">GLOBAL EĞİTİM</text>
+  </g>
+</svg>
