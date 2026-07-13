@@ -146,32 +146,71 @@
     button.addEventListener('pointerleave', () => button.style.transform = '');
   });
 
-  // Demo form: validates and prepares a WhatsApp-compatible text.
-  // To make submissions permanent, replace this block with your Google Form / CRM endpoint.
+  // Google Sheets ön kayıt bağlantısı
+  const formEndpoint = 'https://script.google.com/macros/s/AKfycbznzfn_3doy8gZ9BaB44F7v8lt2GGrv4Z-tFuxIaBRy61eDK5g2KH5rxrzBkV8lxVJA/exec';
   const form = $('#applicationForm');
   const status = $('#formStatus');
-  form.addEventListener('submit', e => {
+
+  form.addEventListener('submit', async e => {
     e.preventDefault();
     status.className = 'form-status';
+
     if (!form.checkValidity()) {
       form.reportValidity();
       status.textContent = 'Lütfen zorunlu alanları kontrol edin.';
       status.classList.add('error');
       return;
     }
+
     const data = new FormData(form);
-    const summary = [
-      `Veli: ${data.get('parentName')}`,
-      `Telefon: ${data.get('phone')}`,
-      `Öğrenci: ${data.get('studentName')}`,
-      `Sınıf: ${data.get('grade')}`,
-      `Kampüs: ${data.get('campus')}`,
-      data.get('percentile') ? `LGS dilimi: ${data.get('percentile')}` : '',
-      data.get('message') ? `Not: ${data.get('message')}` : ''
-    ].filter(Boolean).join(' | ');
-    sessionStorage.setItem('cernPreRegistration', summary);
-    status.textContent = 'Talebiniz alındı. Eğitim danışmanımız sizinle iletişime geçecektir.';
-    status.classList.add('success');
-    form.reset();
+    const submitButton = $('.submit-btn', form);
+    const submitLabel = $('span', submitButton);
+    const originalLabel = submitLabel.textContent;
+    const percentileInput = String(data.get('percentile') || '').trim().replace(',', '.');
+    const percentileNumber = percentileInput ? Number(percentileInput) : null;
+    const scholarshipRate = percentileNumber !== null && Number.isFinite(percentileNumber)
+      ? scholarshipFor(percentileNumber)[0]
+      : '';
+    const noteText = String(data.get('message') || '').trim();
+    const grade = String(data.get('grade') || '').trim();
+    const notes = [`Sınıf: ${grade}`, noteText ? `Not: ${noteText}` : ''].filter(Boolean).join(' | ');
+    const consent = $('.check-row input[type="checkbox"]', form).checked;
+
+    const payload = {
+      submittedAt: new Date().toISOString(),
+      student: String(data.get('studentName') || '').trim(),
+      lgsPercentile: percentileInput ? percentileInput.replace('.', ',') : '',
+      scholarshipRate,
+      parent: String(data.get('parentName') || '').trim(),
+      phone: String(data.get('phone') || '').trim(),
+      campus: String(data.get('campus') || '').trim(),
+      consent,
+      grade,
+      notes,
+      message: noteText
+    };
+
+    submitButton.disabled = true;
+    submitLabel.textContent = 'Gönderiliyor…';
+    status.textContent = 'Başvurunuz kaydediliyor…';
+
+    try {
+      await fetch(formEndpoint, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      });
+
+      status.textContent = 'Talebiniz alındı. Eğitim danışmanımız sizinle iletişime geçecektir.';
+      status.classList.add('success');
+      form.reset();
+    } catch (error) {
+      status.textContent = 'Gönderim sırasında bir sorun oluştu. Lütfen tekrar deneyin.';
+      status.classList.add('error');
+    } finally {
+      submitButton.disabled = false;
+      submitLabel.textContent = originalLabel;
+    }
   });
 })();
